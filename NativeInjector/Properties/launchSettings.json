@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "NativeInjector": {
+      "commandName": "Project",
+      "commandLineArgs": "HxD \"C:\\Users\\chair\\source\\repos\\SafeHost\\Build\\SafeHost.dll\"",
+      "nativeDebugging": false
+    }
+  }
+}

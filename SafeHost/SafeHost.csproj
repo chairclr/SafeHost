@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PublishAot>true</PublishAot>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NetHostDir>$(NetCoreTargetingPackRoot)\Microsoft.NETCore.App.Host.win-x64\$(BundledNETCoreAppPackageVersion)\runtimes\win-x64\native\</NetHostDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <NativeLibrary Include="$(NetHostDir)libnethost.lib" />
+
+    <DirectPInvoke Include="user32!MessageBoxW" />
+    <DirectPInvoke Include="kernel32!CreateThread" />
+
+    <DirectPInvoke Include="nethost" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ManagedLibrary\ManagedLibrary.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="CopyNativeBinary">
+    <ItemGroup>
+      <NativeBinaryFolder Include="$(ProjectDir)$(OutDir)publish\**\*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(NativeBinaryFolder)" DestinationFolder="..\Build\%(RecursiveDir)" />
+  </Target>
+
+</Project>
